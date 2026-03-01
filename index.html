@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热烈庆祝张高华荣任福首</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* 喜庆的红底渐变色 */
+            background: linear-gradient(135deg, #c62828, #b71c1c, #8e0000);
+            color: #ffd700; /* 辉煌的金色字体 */
+            font-family: "Microsoft YaHei", "SimHei", sans-serif;
+            text-align: center;
+            overflow: hidden; /* 隐藏滚动条，让礼花效果更好 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* 中间的主体内容框 */
+        .container {
+            z-index: 10;
+            padding: 50px 40px;
+            background: rgba(0, 0, 0, 0.2); /* 半透明黑色增加层次感 */
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            border: 2px solid #ffd700;
+            backdrop-filter: blur(5px);
+            animation: pulse 2s infinite; /* 呼吸灯发光效果 */
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+            letter-spacing: 5px;
+        }
+
+        p.subtitle {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .blessing {
+            font-size: 1.5rem;
+            line-height: 2;
+            color: #fffacd;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* CSS 绘制的红灯笼 */
+        .lantern {
+            position: absolute;
+            top: -20px;
+            width: 80px;
+            height: 100px;
+            background: #ff0000;
+            border-radius: 40px;
+            box-shadow: inset -5px -5px 20px rgba(0,0,0,0.5), 0 0 20px #ff0000;
+            animation: float 4s ease-in-out infinite;
+            z-index: 5;
+        }
+        .lantern::before { /* 灯笼顶部的金色把手 */
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            width: 40px;
+            height: 10px;
+            background: #ffd700;
+            border-radius: 3px;
+        }
+        .lantern::after { /* 灯笼底部的金色流苏 */
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            left: 35px;
+            width: 10px;
+            height: 40px;
+            background: #ffd700;
+            box-shadow: -15px 5px 0 -2px #ffd700, 15px 5px 0 -2px #ffd700;
+        }
+        
+        /* 左右灯笼的位置和动画延迟 */
+        .lantern.left { left: 15%; animation-delay: 0s; }
+        .lantern.right { right: 15%; animation-delay: 1s; }
+
+        /* 动画定义 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            p.subtitle { font-size: 1.2rem; }
+            .blessing { font-size: 1.1rem; }
+            .lantern { transform: scale(0.6); top: -40px; }
+            .lantern.left { left: 0%; }
+            .lantern.right { right: 0%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lantern left"></div>
+    <div class="lantern right"></div>
+
+    <div class="container">
+        <h1>热烈庆祝张高华<br>荣任福首</h1>
+        <p class="subtitle">🎉 喜结善缘，福泽绵长 🎉</p>
+        <div class="blessing">
+            恭祝张高华先生：<br>
+            功德圆满，万事顺遂！<br>
+            阖家欢乐，福星高照！
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // 撒花特效逻辑 (持续15秒的金色和红色礼花)
+        var duration = 15 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function() {
+          var timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          var particleCount = 50 * (timeLeft / duration);
+          confetti(Object.assign({}, defaults, { 
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            colors: ['#ff0000', '#ffd700', '#ffeb3b'] // 红黄配色
+          }));
+          confetti(Object.assign({}, defaults, { 
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            colors: ['#ff0000', '#ffd700', '#ffeb3b']
+          }));
+        }, 250);
+    </script>
+</body>
+</html>
