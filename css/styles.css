@@ -216,6 +216,13 @@ textarea:focus {
 
 /* --- Animations --- */
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(16px); } }
+
+/* 新增：手机端专属的灯笼动画（加入了缩小效果） */
+@keyframes floatMobile { 
+  0%, 100% { transform: scale(0.55) translateY(0); } 
+  50% { transform: scale(0.55) translateY(18px); } 
+}
+
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -277,7 +284,18 @@ textarea:focus {
   .audio-actions { flex-direction: row; flex-wrap: wrap; gap: 10px; }
   .audio-actions .btn-sm { flex: 1; justify-content: center; }
   
-  .lantern { display: none; }
+  /* == 修复：手机端重新显示灯笼，并缩小置于两角 == */
+  .lantern.left { 
+    left: -10px; 
+    top: 5px; 
+    animation: floatMobile 4s ease-in-out infinite; 
+  }
+  .lantern.right { 
+    right: -10px; 
+    top: 15px; 
+    animation: floatMobile 4s ease-in-out infinite 1s; 
+  }
+  
   .comments-wrap { height: 200px; padding: 12px; }
 }
 
