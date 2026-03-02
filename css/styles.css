@@ -1,0 +1,265 @@
+/* css/styles.css */
+:root {
+  --red1: #c62828;
+  --red2: #7a0000;
+  --gold: #ffd700;
+  --gold-glow: rgba(255, 215, 0, 0.4);
+  --card-radius: 16px;
+  --glass-bg: rgba(0, 0, 0, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Microsoft YaHei", "SimHei", -apple-system, sans-serif;
+  background: linear-gradient(180deg, var(--red1), var(--red2));
+  color: var(--gold);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+.site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Header --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  position: relative;
+  z-index: 20;
+}
+.logo { display: flex; align-items: center; gap: 12px; user-select: none; }
+.logo-box {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff7b00, #ffd700);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.brand { font-weight: 700; letter-spacing: 1px; font-size: 18px; user-select: none; }
+.nav { display: flex; gap: 8px; }
+.nav a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+.nav a:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+
+/* --- Layout Wrappers --- */
+.hero, .page-main {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 76px);
+  padding: 40px 16px;
+  overflow: hidden;
+  flex: 1;
+}
+.hero::after, .page-main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.4));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --- Global Card Style --- */
+.card {
+  position: relative;
+  z-index: 2;
+  width: min(1000px, 100%);
+  padding: 36px;
+  border-radius: var(--card-radius);
+  background: linear-gradient(135deg, rgba(0,0,0,0.15), rgba(0,0,0,0.35));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* --- Typography --- */
+.card-title { margin: 0; font-size: 28px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+.section-heading { margin: 28px 0 12px 0; font-size: 18px; color: #fff; font-weight: 600; }
+.subtitle { font-size: 16px; color: #fffbd6; margin-top: 8px; line-height: 1.6; }
+.muted-text { color: rgba(255, 251, 214, 0.8); font-size: 14px; }
+.left h1 { margin: 0; font-size: 42px; line-height: 1.1; text-shadow: 3px 3px 12px rgba(0,0,0,0.6); }
+.highlight { color: #fff; }
+.blessing { margin-top: 18px; color: #fffbe0; line-height: 1.8; font-size: 16px; }
+
+/* --- Index Page Specific --- */
+.card.index-card { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: center; }
+.controls-row { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* --- Messages Page Specific --- */
+.messages-card {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 40px;
+  align-items: flex-start;
+}
+.message-form { margin-top: 20px; }
+.input-group { margin-bottom: 16px; }
+.action-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* --- Inputs & Textarea --- */
+textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+}
+textarea::placeholder { color: rgba(255, 239, 211, 0.5); }
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 12px var(--gold-glow), inset 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  background: rgba(255,255,255,0.05);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+
+/* 新增：小尺寸按钮样式（用于音乐控制等次要操作） */
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+}
+/* 新增：小图标样式 */
+.icon {
+  font-size: 10px;
+  opacity: 0.85;
+  font-style: normal;
+  display: inline-block;
+  transform: translateY(-1px); /* 微调图标垂直居中 */
+}
+
+.play {
+  background: linear-gradient(90deg, #ffd700, #ffb300);
+  color: #5c2200;
+  border: none;
+  box-shadow: 0 6px 20px rgba(255, 183, 0, 0.25);
+}
+.play:hover {
+  background: linear-gradient(90deg, #ffdf33, #ffbd1a);
+  box-shadow: 0 8px 25px rgba(255, 183, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* --- Controls Aside --- */
+.control-title { font-weight: 800; margin-bottom: 12px; font-size: 16px; border-bottom: 1px solid rgba(255,215,0,0.15); padding-bottom: 8px; }
+.controls {
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+}
+.control-links { display: flex; flex-direction: column; gap: 10px; }
+.audio-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.hint { margin-top: 14px; font-size: 12px; color: rgba(255, 248, 214, 0.7); line-height: 1.5; }
+
+/* --- Comments Area --- */
+.comments-wrap {
+  height: 240px;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  font-size: 15px;
+  color: #fffbe0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+.comment {
+  padding: 12px 6px;
+  border-bottom: 1px dashed rgba(255, 215, 0, 0.15);
+  line-height: 1.6;
+  animation: slideIn 0.6s ease-out;
+}
+.comment:last-child { border-bottom: none; }
+
+/* --- Animations --- */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(16px); } }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Lanterns (Index) --- */
+.lantern { position: absolute; width: 86px; height: 110px; border-radius: 46px; background: linear-gradient(#ff3b3b, #c30000); box-shadow: inset -6px -6px 20px rgba(0,0,0,0.4); z-index: 1; animation: float 4s ease-in-out infinite; }
+.lantern.left { left: 8%; top: 10%; }
+.lantern.right { right: 8%; top: 12%; animation-delay: 1s; }
+.lantern::after { content: ""; position: absolute; bottom: -28px; left: 36px; width: 10px; height: 36px; background: var(--gold); box-shadow: -16px 5px 0 -2px var(--gold), 16px 5px 0 -2px var(--gold); }
+
+/* --- Responsive Layout --- */
+@media (max-width: 880px) {
+  .header { padding: 12px 16px; }
+  .nav a { padding: 6px 10px; font-size: 14px; }
+  
+  .hero, .page-main { padding: 20px 12px; }
+  .card, .messages-card, .index-card {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    gap: 24px;
+  }
+  
+  .left h1, .card-title { font-size: 30px; }
+  
+  .side-controls {
+    border-top: 1px dashed rgba(255, 215, 0, 0.2);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    background: transparent;
+    padding: 24px 0 0 0;
+    box-shadow: none;
+  }
+  .audio-actions { flex-direction: row; flex-wrap: wrap; }
+  
+  .lantern { display: none; }
+  .comments-wrap { height: 200px; padding: 10px; }
+}
