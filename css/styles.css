@@ -15,7 +15,7 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: "Microsoft YaHei", "SimHei", -apple-system, sans-serif;
-  background: linear-gradient(180deg, var(--red1), var(--red2));
+  background: linear-gradient(180deg, var(--red1), var(--red2)) no-repeat fixed;
   color: var(--gold);
   -webkit-font-smoothing: antialiased;
 }
@@ -43,9 +43,10 @@ a { color: inherit; }
   border-radius: 10px;
   background: linear-gradient(135deg, #ff7b00, #ffd700);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  flex-shrink: 0;
 }
-.brand { font-weight: 700; letter-spacing: 1px; font-size: 18px; user-select: none; }
-.nav { display: flex; gap: 8px; }
+.brand { font-weight: 700; letter-spacing: 1px; font-size: 18px; user-select: none; white-space: nowrap; }
+.nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;}
 .nav a {
   padding: 8px 14px;
   border-radius: 8px;
@@ -53,6 +54,7 @@ a { color: inherit; }
   font-weight: 600;
   font-size: 15px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 .nav a:hover {
   background: rgba(255,255,255,0.08);
@@ -65,7 +67,8 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 76px);
+  /* 修复在某些手机浏览器上 100vh 的问题 */
+  min-height: calc(100vh - 80px); 
   padding: 40px 16px;
   overflow: hidden;
   flex: 1;
@@ -98,21 +101,15 @@ a { color: inherit; }
 .section-heading { margin: 28px 0 12px 0; font-size: 18px; color: #fff; font-weight: 600; }
 .subtitle { font-size: 16px; color: #fffbd6; margin-top: 8px; line-height: 1.6; }
 .muted-text { color: rgba(255, 251, 214, 0.8); font-size: 14px; }
-.left h1 { margin: 0; font-size: 42px; line-height: 1.1; text-shadow: 3px 3px 12px rgba(0,0,0,0.6); }
+.left h1 { margin: 0; font-size: 42px; line-height: 1.2; text-shadow: 3px 3px 12px rgba(0,0,0,0.6); }
 .highlight { color: #fff; }
 .blessing { margin-top: 18px; color: #fffbe0; line-height: 1.8; font-size: 16px; }
 
-/* --- Index Page Specific --- */
-.card.index-card { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: center; }
-.controls-row { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+/* --- PC Layouts --- */
+.index-card { display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: center; }
+.messages-card { display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: flex-start; }
 
-/* --- Messages Page Specific --- */
-.messages-card {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 40px;
-  align-items: flex-start;
-}
+.controls-row { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
 .message-form { margin-top: 20px; }
 .input-group { margin-bottom: 16px; }
 .action-group { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -156,24 +153,23 @@ textarea:focus {
   font-size: 15px;
   text-decoration: none;
   transition: all 0.2s ease;
+  white-space: nowrap; /* 防止按钮内文字折行 */
 }
 .btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
 .btn:active { transform: translateY(1px); }
 
-/* 新增：小尺寸按钮样式（用于音乐控制等次要操作） */
 .btn-sm {
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 500;
   border-radius: 8px;
 }
-/* 新增：小图标样式 */
 .icon {
   font-size: 10px;
   opacity: 0.85;
   font-style: normal;
   display: inline-block;
-  transform: translateY(-1px); /* 微调图标垂直居中 */
+  transform: translateY(-1px);
 }
 
 .play {
@@ -235,31 +231,73 @@ textarea:focus {
 .lantern.right { right: 8%; top: 12%; animation-delay: 1s; }
 .lantern::after { content: ""; position: absolute; bottom: -28px; left: 36px; width: 10px; height: 36px; background: var(--gold); box-shadow: -16px 5px 0 -2px var(--gold), 16px 5px 0 -2px var(--gold); }
 
-/* --- Responsive Layout --- */
+
+/* ==========================================================
+   响应式修复：彻底解决移动端显示混乱、挤压的问题 
+   ========================================================== */
 @media (max-width: 880px) {
-  .header { padding: 12px 16px; }
-  .nav a { padding: 6px 10px; font-size: 14px; }
+  /* 头部优化：确保Logo和导航栏在小屏幕上不会重叠 */
+  .header { 
+    padding: 12px; 
+    flex-wrap: wrap; /* 允许换行 */
+    gap: 12px;
+    justify-content: center; /* 居中对齐 */
+  }
+  .nav { justify-content: center; width: 100%; }
+  .nav a { padding: 6px 12px; font-size: 14px; }
   
-  .hero, .page-main { padding: 20px 12px; }
-  .card, .messages-card, .index-card {
-    grid-template-columns: 1fr;
+  /* 主体间距调整 */
+  .hero, .page-main { padding: 20px 12px; align-items: flex-start; } /* 顶部对齐，防止被截断 */
+  
+  /* 卡片布局：强制改为单列堆叠 */
+  .card, .index-card, .messages-card {
+    display: flex;
+    flex-direction: column; /* 改为垂直排列，废弃网格 */
     padding: 24px 20px;
     gap: 24px;
+    width: 100%;
   }
   
-  .left h1, .card-title { font-size: 30px; }
+  /* 文字大小缩放，防止折行过密 */
+  .left h1 { font-size: 32px; }
+  .card-title { font-size: 24px; }
+  .subtitle { font-size: 15px; }
+  .blessing { font-size: 15px; margin-top: 14px;}
   
-  .side-controls {
+  /* 按钮区域：允许换行并充满宽度 */
+  .controls-row { justify-content: flex-start; gap: 10px; }
+  .btn { flex: 1 1 auto; text-align: center; } /* 按钮自适应剩余空间 */
+  
+  /* 侧边控制栏重塑为底部栏 */
+  .controls, .side-controls {
+    width: 100%; /* 占满卡片宽度 */
+    padding: 20px 0 0 0; /* 只留顶部内边距 */
     border-top: 1px dashed rgba(255, 215, 0, 0.2);
     border-left: none;
     border-right: none;
     border-bottom: none;
     background: transparent;
-    padding: 24px 0 0 0;
     box-shadow: none;
+    border-radius: 0;
   }
-  .audio-actions { flex-direction: row; flex-wrap: wrap; }
   
+  /* 控制栏内部元素排布 */
+  .control-links { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+  .control-links .btn { flex: 1; justify-content: center; } /* 视频和留言按钮等宽 */
+  
+  .audio-actions { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 10px; }
+  .audio-actions .btn-sm { flex: 1 1 auto; justify-content: center;}
+  
+  /* 隐藏装饰元素避免占用屏幕空间 */
   .lantern { display: none; }
-  .comments-wrap { height: 200px; padding: 10px; }
+  
+  /* 调整留言列表高度 */
+  .comments-wrap { height: 200px; padding: 12px; }
+}
+
+/* 针对非常小的屏幕 (iPhone SE 等) 进一步微调 */
+@media (max-width: 400px) {
+  .left h1 { font-size: 28px; }
+  .controls-row { flex-direction: column; } /* 按钮强制纵向排列 */
+  .controls-row .btn { width: 100%; }
 }
