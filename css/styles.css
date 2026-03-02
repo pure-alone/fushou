@@ -84,7 +84,7 @@ a { color: inherit; }
 /* --- Global Card Style --- */
 .card {
   position: relative;
-  z-index: 2;
+  z-index: 2; /* 卡片层级为 2 */
   width: min(1000px, 100%);
   padding: 36px;
   border-radius: var(--card-radius);
@@ -104,7 +104,7 @@ a { color: inherit; }
 .section-heading { margin: 28px 0 12px 0; font-size: 18px; color: #fff; font-weight: 600; }
 .subtitle { font-size: 16px; color: #fffbd6; margin-top: 8px; line-height: 1.6; }
 .muted-text { color: rgba(255, 251, 214, 0.8); font-size: 14px; }
-.main-content h1 { margin: 0; font-size: 42px; line-height: 1.2; text-shadow: 3px 3px 12px rgba(0,0,0,0.6); }
+.title-wrap h1 { margin: 0; font-size: 42px; line-height: 1.2; text-shadow: 3px 3px 12px rgba(0,0,0,0.6); }
 .highlight { color: #fff; }
 .blessing { margin-top: 18px; color: #fffbe0; line-height: 1.8; font-size: 16px; }
 
@@ -220,7 +220,7 @@ textarea:focus {
 /* 手机端缩小浮动动画 */
 @keyframes floatMobile { 
   0%, 100% { transform: scale(0.65) translateY(0); } 
-  50% { transform: scale(0.65) translateY(20px); } 
+  50% { transform: scale(0.65) translateY(18px); } 
 }
 
 @keyframes slideIn {
@@ -229,14 +229,15 @@ textarea:focus {
 }
 
 /* --- Lanterns (Index) --- */
-.lantern { position: absolute; width: 86px; height: 110px; border-radius: 46px; background: linear-gradient(#ff3b3b, #c30000); box-shadow: inset -6px -6px 20px rgba(0,0,0,0.4); z-index: 1; animation: float 4s ease-in-out infinite; }
+/* PC 端灯笼配置，z-index 改为 10（比卡片的2高），保证在最上面 */
+.lantern { position: absolute; width: 86px; height: 110px; border-radius: 46px; background: linear-gradient(#ff3b3b, #c30000); box-shadow: inset -6px -6px 20px rgba(0,0,0,0.4); z-index: 10; animation: float 4s ease-in-out infinite; }
 .lantern.left { left: 8%; top: 10%; }
 .lantern.right { right: 8%; top: 12%; animation-delay: 1s; }
 .lantern::after { content: ""; position: absolute; bottom: -28px; left: 36px; width: 10px; height: 36px; background: var(--gold); box-shadow: -16px 5px 0 -2px var(--gold), 16px 5px 0 -2px var(--gold); }
 
 
 /* ==========================================================
-   移动端响应式修改：居中排版 + 景深灯笼
+   移动端响应式修改：完全居中排版 + 灯笼置于最上层
    ========================================================== */
 @media (max-width: 880px) {
   .header { 
@@ -258,22 +259,36 @@ textarea:focus {
     margin-top: 15px; 
   }
   
-  /* === 重点1：标题和副标题居中显示 === */
-  .main-content h1 { 
-    text-align: center; 
-    font-size: 34px; 
-  }
-  .subtitle { 
-    text-align: center; 
-    font-size: 15px; 
-    margin-bottom: 8px;
-  }
-  .blessing { 
-    font-size: 15px; 
-    text-align: justify; /* 保持祝福语段落两端对齐，看起来更整齐 */
+  /* === 完美居中逻辑：让包含标题的容器使用 Flex 居中 === */
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 确保内部块居中 */
   }
   
-  .action-group { justify-content: flex-start; gap: 10px; }
+  .title-wrap {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .title-wrap h1 { 
+    font-size: 34px; 
+    margin-bottom: 8px;
+  }
+  
+  .subtitle { 
+    font-size: 16px; 
+    margin-bottom: 12px;
+  }
+  
+  .blessing { 
+    font-size: 15px; 
+    text-align: justify; /* 保持段落整齐 */
+    width: 100%;
+  }
+  
+  /* 按钮区域也居中 */
+  .action-group { width: 100%; justify-content: center; gap: 10px; }
   .btn { flex: 1 1 auto; text-align: center; } 
   
   .controls.side-controls {
@@ -291,24 +306,21 @@ textarea:focus {
   .audio-actions { flex-direction: row; flex-wrap: wrap; gap: 10px; }
   .audio-actions .btn-sm { flex: 1; justify-content: center; }
   
-  /* === 重点2：灯笼移到文字正后方，做虚化、半透明处理 === */
-  .lantern { display: block !important; }
+  /* === 灯笼悬浮在最上方逻辑 === */
+  /* 去除模糊滤镜，提高 z-index，让它真切地盖在上方 */
+  .lantern { display: block !important; z-index: 10 !important; filter: none !important; opacity: 1 !important; }
   
   .lantern.left { 
-    left: 12%; /* 往中间靠拢，藏在文字后面 */
-    top: 6%; 
-    opacity: 0.55; /* 半透明效果 */
-    filter: blur(3px); /* 强制高斯模糊，营造虚化景深感 */
-    transform-origin: center center;
+    left: -2%; /* 卡在屏幕左边缘悬浮 */
+    top: 3%; 
+    transform-origin: top left;
     animation: floatMobile 4s ease-in-out infinite; 
   }
   
   .lantern.right { 
-    right: 12%; /* 往中间靠拢，藏在文字后面 */
-    top: 12%; 
-    opacity: 0.55; 
-    filter: blur(3px); 
-    transform-origin: center center;
+    right: -2%; /* 卡在屏幕右边缘悬浮 */
+    top: 6%; 
+    transform-origin: top right;
     animation: floatMobile 4s ease-in-out infinite 1s; 
   }
   
@@ -316,7 +328,7 @@ textarea:focus {
 }
 
 @media (max-width: 400px) {
-  .main-content h1 { font-size: 30px; }
+  .title-wrap h1 { font-size: 30px; }
   .action-group { flex-direction: column; }
   .btn { width: 100%; }
 }
