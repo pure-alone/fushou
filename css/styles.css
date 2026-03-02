@@ -217,10 +217,10 @@ textarea:focus {
 /* --- Animations --- */
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(16px); } }
 
-/* 手机端专属浮动动画：加入了幅度适配 */
+/* 手机端缩小浮动动画 */
 @keyframes floatMobile { 
-  0%, 100% { transform: scale(0.55) translateY(0); } 
-  50% { transform: scale(0.55) translateY(24px); } 
+  0%, 100% { transform: scale(0.65) translateY(0); } 
+  50% { transform: scale(0.65) translateY(20px); } 
 }
 
 @keyframes slideIn {
@@ -236,7 +236,7 @@ textarea:focus {
 
 
 /* ==========================================================
-   移动端响应式核心修复：防溢出、防挤压
+   移动端响应式修改：居中排版 + 景深灯笼
    ========================================================== */
 @media (max-width: 880px) {
   .header { 
@@ -255,13 +255,23 @@ textarea:focus {
     padding: 24px 20px;
     gap: 24px;
     width: 100%;
-    margin-top: 15px; /* 卡片往下压一点，给灯笼留出空间 */
+    margin-top: 15px; 
   }
   
-  .main-content h1 { font-size: 34px; }
-  .card-title { font-size: 24px; }
-  .subtitle { font-size: 15px; }
-  .blessing { font-size: 15px; }
+  /* === 重点1：标题和副标题居中显示 === */
+  .main-content h1 { 
+    text-align: center; 
+    font-size: 34px; 
+  }
+  .subtitle { 
+    text-align: center; 
+    font-size: 15px; 
+    margin-bottom: 8px;
+  }
+  .blessing { 
+    font-size: 15px; 
+    text-align: justify; /* 保持祝福语段落两端对齐，看起来更整齐 */
+  }
   
   .action-group { justify-content: flex-start; gap: 10px; }
   .btn { flex: 1 1 auto; text-align: center; } 
@@ -281,20 +291,24 @@ textarea:focus {
   .audio-actions { flex-direction: row; flex-wrap: wrap; gap: 10px; }
   .audio-actions .btn-sm { flex: 1; justify-content: center; }
   
-  /* == 彻底修复：删掉隐藏代码，强制显示并优化手机端定位 == */
+  /* === 重点2：灯笼移到文字正后方，做虚化、半透明处理 === */
   .lantern { display: block !important; }
   
   .lantern.left { 
-    left: 4%; 
-    top: 2%; 
-    transform-origin: top left; /* 修正缩放原点，防出界 */
+    left: 12%; /* 往中间靠拢，藏在文字后面 */
+    top: 6%; 
+    opacity: 0.55; /* 半透明效果 */
+    filter: blur(3px); /* 强制高斯模糊，营造虚化景深感 */
+    transform-origin: center center;
     animation: floatMobile 4s ease-in-out infinite; 
   }
   
   .lantern.right { 
-    right: 4%; 
-    top: 4%; 
-    transform-origin: top right; /* 修正缩放原点，防出界 */
+    right: 12%; /* 往中间靠拢，藏在文字后面 */
+    top: 12%; 
+    opacity: 0.55; 
+    filter: blur(3px); 
+    transform-origin: center center;
     animation: floatMobile 4s ease-in-out infinite 1s; 
   }
   
