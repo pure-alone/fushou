@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>留言 · 庆贺张高华</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="site">
+    <header class="header">
+      <div class="logo">
+        <div class="logo-box" aria-hidden="true"></div>
+        <div class="brand">留言板</div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="video.html">祝福视频</a>
+        <a href="messages.html">留言</a>
+      </nav>
+    </header>
+
+    <main class="page-main">
+      <section class="card messages-card">
+        <div class="main-content">
+          <h1 class="card-title">给张高华的祝福</h1>
+          <p class="subtitle muted-text">写下您的真挚祝福，共同见证这一喜悦时刻。</p>
+
+          <form id="message-form" class="message-form">
+            <div class="input-group">
+              <textarea id="message" rows="3" required placeholder="写下您的祝福..."></textarea>
+            </div>
+            <div class="action-group">
+              <button class="btn play" type="submit">发送祝福</button>
+            </div>
+          </form>
+
+          <h3 class="section-heading">亲朋贺语</h3>
+          <div class="comments-wrap" id="comments-list">
+            <div class="comment">正在加载祝福…</div>
+          </div>
+        </div>
+
+        <aside class="controls side-controls">
+          <div class="control-title">页面音乐</div>
+          <div class="audio-actions">
+            <button class="btn btn-sm" id="play-msg-music"><i class="icon">▶</i> 播放背景音乐</button>
+            <button class="btn btn-sm" id="pause-msg-music" style="display:none"><i class="icon">■</i> 暂停背景音乐</button>
+          </div>
+        </aside>
+      </section>
+
+      <audio id="msg-audio" src="assets/audio/messages_music.mp3" loop autoplay muted playsinline></audio>
+      <audio id="confetti-audio" src="assets/audio/confetti_sound.mp3" preload="auto"></audio>
+    </main>
+  </div>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
