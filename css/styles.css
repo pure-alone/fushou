@@ -217,10 +217,10 @@ textarea:focus {
 /* --- Animations --- */
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(16px); } }
 
-/* 新增：手机端专属的灯笼动画（加入了缩小效果） */
+/* 手机端专属浮动动画：加入了幅度适配 */
 @keyframes floatMobile { 
   0%, 100% { transform: scale(0.55) translateY(0); } 
-  50% { transform: scale(0.55) translateY(18px); } 
+  50% { transform: scale(0.55) translateY(24px); } 
 }
 
 @keyframes slideIn {
@@ -249,26 +249,23 @@ textarea:focus {
   
   .hero, .page-main { padding: 20px 12px; align-items: flex-start; }
   
-  /* 强行接管卡片布局，废弃网格，改为垂直堆叠 */
   .card, .card.index-card, .card.messages-card {
     display: flex !important;
     flex-direction: column !important;
     padding: 24px 20px;
     gap: 24px;
     width: 100%;
+    margin-top: 15px; /* 卡片往下压一点，给灯笼留出空间 */
   }
   
-  /* 缩放字体 */
   .main-content h1 { font-size: 34px; }
   .card-title { font-size: 24px; }
   .subtitle { font-size: 15px; }
   .blessing { font-size: 15px; }
   
-  /* 按钮区域：充满容器并允许换行 */
   .action-group { justify-content: flex-start; gap: 10px; }
   .btn { flex: 1 1 auto; text-align: center; } 
   
-  /* 侧边栏转变为底部分割栏 */
   .controls.side-controls {
     width: 100%; 
     padding: 24px 0 0 0; 
@@ -284,15 +281,20 @@ textarea:focus {
   .audio-actions { flex-direction: row; flex-wrap: wrap; gap: 10px; }
   .audio-actions .btn-sm { flex: 1; justify-content: center; }
   
-  /* == 修复：手机端重新显示灯笼，并缩小置于两角 == */
+  /* == 彻底修复：删掉隐藏代码，强制显示并优化手机端定位 == */
+  .lantern { display: block !important; }
+  
   .lantern.left { 
-    left: -10px; 
-    top: 5px; 
+    left: 4%; 
+    top: 2%; 
+    transform-origin: top left; /* 修正缩放原点，防出界 */
     animation: floatMobile 4s ease-in-out infinite; 
   }
+  
   .lantern.right { 
-    right: -10px; 
-    top: 15px; 
+    right: 4%; 
+    top: 4%; 
+    transform-origin: top right; /* 修正缩放原点，防出界 */
     animation: floatMobile 4s ease-in-out infinite 1s; 
   }
   
